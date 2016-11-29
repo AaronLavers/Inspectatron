@@ -12,6 +12,12 @@ body {
  * Global add-ons
  */
 
+ a.navbar-brand .glyphicon {
+  margin-top: -10px;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
 .sub-header {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
@@ -30,6 +36,7 @@ body {
 select.example {
   padding: 2px 7px;
   border-radius: 3px;
+  font-weight: normal;
 }
 
 table.comments thead, table.comments tbody { display: block; }
