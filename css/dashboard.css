@@ -27,14 +27,17 @@ body {
 .navbar-fixed-top {
   border: 0;
 }
-
+select.example {
+  padding: 2px 7px;
+  border-radius: 3px;
+}
 
 table.comments thead, table.comments tbody { display: block; }
 
 table.comments tbody {
-    height: 280px;       /* Just for the demo          */
-    overflow-y: auto;    /* Trigger vertical scroll    */
-    overflow-x: hidden;  /* Hide the horizontal scroll */
+  height: 280px;       /* Just for the demo          */
+  overflow-y: auto;    /* Trigger vertical scroll    */
+  overflow-x: hidden;  /* Hide the horizontal scroll */
 }
 table.comments {
   margin-bottom: 10px;
@@ -43,26 +46,60 @@ table.comments {
 table.examples thead, table.examples tbody { display: inline-block; }
 
 table.examples tbody {
-    height: 280px;       /* Just for the demo          */
-    overflow-y: auto;    /* Trigger vertical scroll    */
-    overflow-x: hidden;  /* Hide the horizontal scroll */
+  height: 280px;       /* Just for the demo          */
+  overflow-y: auto;    /* Trigger vertical scroll    */
+  overflow-x: hidden;  /* Hide the horizontal scroll */
 }
 table.examples {
   margin-bottom: 10px;
 }
 
 pre {
-    display: block;
-    padding: 10px;
-    margin: 0 0 10px;
-    font-size: 12px;
-    line-height: 1.846;
-    word-break: break-all;
-    word-wrap: break-word;
-    color: #e0e0bc;
-    background-color: #484848;
-    border: 1px solid #cccccc;
-    border-radius: 3px;
+  display: block;
+  padding: 10px;
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.846;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #e0e0bc;
+  background-color: #484848;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+}
+
+td.tags span {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #ffffff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  background-color: #2196f3;
+}
+
+td.cross span {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 0;
+}
+
+td.cross span:before {
+  content: "\e006";
+  font-size: 13px;
 }
 
 /*
