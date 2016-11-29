@@ -46,7 +46,6 @@
 							<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
 						</span>
 						ePremium Inspectatron 
-						
 					</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
@@ -66,9 +65,27 @@
 				<div class="col-sm-3 col-md-2 sidebar">
 					<h4>Virtual Tables</h4>
 
-					<form class="navbar-form">
-			            <input type="text" class="form-control" placeholder="Search...">
-			          </form>
+					<form class="navbar-form" role="form">
+						<div class="form-group">
+			            	<input id="searchinput" type="search" class="form-control" placeholder="Search...">
+			          	</div>
+
+			          	<!-- TEST SEARCHABLE LINKS -->
+				        <div id="searchlist" class="list-group">
+				        	<ul>
+					        	<li class="list-group-item"><a href="#">aquamarine</a></li>
+					        	<li class="list-group-item"><a href="#">black</a></li>
+					        	<li class="list-group-item"><a href="#">blue</a></li>
+					        	<li class="list-group-item"><a href="#">chocolate</a></li>
+					        	<li class="list-group-item"><a href="#">coral</a></li>
+					        	<li class="list-group-item"><a href="#">cyan</a></li>
+					        	<li class="list-group-item"><a href="#">darkblue</a></li>
+					        	<li class="list-group-item"><a href="#">Darkred</a></li>
+					        	<li class="list-group-item"><a href="#">Darkgray</a></li>
+					    	</ul>
+					    </div>
+
+					</form>
 
 			        <!-- Side Menu main container -->
 					<ul class="nav nav-stacked nav-sidebar" id="accordion1">
@@ -85,9 +102,13 @@
 			            <!-- Static link, no subcategories -->
 				        <li><a href="#">Time Stamp</a></li>
 
+
+
 			        </ul>
 			        <!-- /end Side Menu main container -->
+					
 
+					
 				</div>
 
 
@@ -404,7 +425,6 @@
 		</div>
 
 
-
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -415,5 +435,13 @@
 	<script src="js/vendor/holder.min.js"></script>-->
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug 
 	<script src="js/ie10-viewport-bug-workaround.js"></script> -->
+	<script src="js/bootstrap-list-filter.min.js"></script>
+
+	<script>
+			// Search list
+			$('#searchlist').btsListFilter('#searchinput', {itemChild: 'a'});
+
+	</script>
+		
 </body>
 </html>
