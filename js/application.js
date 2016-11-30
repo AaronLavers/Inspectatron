@@ -106,11 +106,11 @@ function requestPage(){
 				console.log('data updated from ' + linkHref);
 				console.log(data);
 
-				// var main_col = $('<div />').append(data).find('#bodyContainer').html();
-				// $('#bodyContainer').html(main_col);
+				var main_col = $('<div />').append(data).find('#bodyContainer').html();
+				$('#bodyContainer').html(main_col);
 
-				var main_col = $('<div />').append(data).find('.main').html();
-				$('.main').html(main_col);
+				// var main_col = $('<div />').append(data).find('.main').html();
+				// $('.main').html(main_col);
 			},
 
 			error: function(x, t, m) {
