@@ -31,7 +31,13 @@ body {
   top:50%;
   left:50%;
 }
-
+#egggif {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  right:0;
+  z-index:99999;
+}
 .logocon {
   position: relative;
   width: 20px;
@@ -76,6 +82,8 @@ select.example {
   padding: 2px 7px;
   border-radius: 3px;
   font-weight: normal;
+  min-width: 180px;
+  width: auto;
 }
 
 table.comments thead, table.comments tbody { display: block; }

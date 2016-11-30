@@ -1,9 +1,10 @@
 $(document).ready(function () {
+
 	
 	// pageload request data
 	$.ajax({
 		method: 'POST',
-		url: 'http://192.168.1.12:8080/4DAction',
+		url: 'http://192.168.1.12:8080/4DAction/TypeOfRequest=Schema',
 		headers: {
 			'User-Name':'Master',
 			'User-Password':'WDT',
@@ -17,6 +18,7 @@ $(document).ready(function () {
 		success: function(data){
 			// return success
 			console.log('succes: loaded data');
+			// console.log(data);
 			// console.log('succes: '+data);
 			// select menu data and append to side bar
 			var menu = $('<div />').append(data).find('#accordion1').html();
@@ -47,7 +49,10 @@ $(document).ready(function () {
 	$('#accordion1').btsListFilter('#searchinput', {itemChild: 'a'});
 
 	// Start menu click function
-	requestPage()
+	requestPage();
+
+	// konami code
+	konami();
 
 
 
@@ -56,7 +61,7 @@ $(document).ready(function () {
 
 // Show pacman when loading
 $(document).ajaxSend(function(event, request, settings) {
-  $('#loading-indicator').fadeIn('fast');
+  $('#loading-indicator').show();
 });
 // Hide pacman when finished
 $(document).ajaxComplete(function(event, request, settings) {
@@ -71,21 +76,19 @@ function requestPage(){
 		e.preventDefault();
 		// set variables
 		var link = $(this);
-		var linkHref = link.attr('href').replace('TableName-','');
+		var linkHref = 'http://192.168.1.12:8080/' + link.attr('href');
 		var Headers = {
 			'User-Name':'Master',
 			'User-Password':'WDT',
 			'eConnect-Version':'2.0',
-			'TypeOfRequest':'Schema',
-			'TableName':linkHref
+			'TypeOfRequest':'Schema'
 		}
 		// check header data
-		console.log(Headers);
+		// console.log(Headers);
 		// perform rest POST request
 		$.ajax({
-
 			method: 'POST',
-			url: 'http://192.168.1.12:8080/4DAction',
+			url: linkHref,
 			headers: Headers,
 			dataType: 'html',
 			crossDomain:true, 
@@ -93,11 +96,13 @@ function requestPage(){
 			timeout: 5000,
 
 			success : function(data){
-				console.log(data);
 				// select main_col data and append
+				
+				console.log('data updated from ' + linkHref);
+				console.log(data);
+
 				var main_col = $('<div />').append(data).find('.main').html();
 				$('.main').html(main_col);
-				
 			},
 
 			error: function(x, t, m) {
@@ -119,7 +124,21 @@ function requestPage(){
 				}
 			}
 		});
-
 	});
 
+}
+
+function konami(){
+	var egg = new Egg();
+	egg
+	  .addCode("up,up,down,down,left,right,left,right,b,a", function() {
+	    jQuery('#egggif').fadeIn(500, function() {
+	      window.setTimeout(function() { jQuery('#egggif').hide(); }, 5000);
+	    });
+	  })
+	  .addHook(function(){
+	    console.log("Hook called for: " + this.activeEgg.keys);
+	    console.log(this.activeEgg.metadata);
+	  }).listen();
+    
 }
