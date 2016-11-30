@@ -167,11 +167,11 @@ td.cross span:before {
   font-size: 13px;
 }
 
-#virtField tr {
+#virtField tbody tr {
   cursor: pointer;
 }
 
-#virtField tr:hover {
+#virtField tbody tr:hover {
   background-color: #efefef;
 }
 
