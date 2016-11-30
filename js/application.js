@@ -3,7 +3,7 @@ $(document).ready(function () {
 	
 	// pageload request data
 	$.ajax({
-		method: 'POST',
+		method: 'GET',
 		url: 'http://192.168.1.12:8080/4DAction/TypeOfRequest=Schema',
 		headers: {
 			'User-Name':'Master',
@@ -13,7 +13,7 @@ $(document).ready(function () {
 		},
 		dataType: 'html',
 		crossDomain:true, 
-		timeout: 5000,
+		timeout: 15000,
 		// Succeffully connected
 		success: function(data){
 			// return success
@@ -87,13 +87,13 @@ function requestPage(){
 		// console.log(Headers);
 		// perform rest POST request
 		$.ajax({
-			method: 'POST',
+			method: 'GET',
 			url: linkHref,
 			headers: Headers,
 			dataType: 'html',
 			crossDomain:true, 
 			// wait five seconds before timeout
-			timeout: 5000,
+			timeout: 15000,
 
 			success : function(data){
 				// select main_col data and append
