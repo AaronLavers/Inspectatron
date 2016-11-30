@@ -140,31 +140,7 @@
 
 <pre>
 <!-- ====================== START EXAMPLE ====================== -->
-{
-	"Transaction1": {
-		"Command": "create",
-		"Table": "EWAL_SendMoney_Request",
-		"Values": {
-			"Customer_key": "2C7D56B59B3ACD489A774FBF278045D3",
-			"Recipient_key": "CA5668C8B20AD049AD0FB066940BC68E",
-            "WebTransactionID": "SNM_2016_10_24_171636",
-			"Amount": {
-				"Sent": "0.05",
-				"Fee": "0.00"
-				},
-          "Recipient": {"PaymentMethod_key": "03CEB3DD1656D044A91E29DA65A0AB90"},
-			"Currency": {
-				"ExchangeRate": "19.77",
-					"Sent": {
-						"Code": "USD"
-						},
-					"Received": {
-						"Code": "MXN"
-					}
-				}
-			}
-	}
-} 
+<!--###ExampleCommand### -->
 <!-- ====================== END EXAMPLE ====================== -->
 </pre>
 
@@ -194,18 +170,7 @@
 
 <pre>
 <!-- ====================== START EXAMPLE ====================== -->
-{
-  "OverallResult": "OK",
-  "Transactions": {
-    "Transaction1": {
-      "Result": "Error",
-      "Error": {
-        "Type": "SCHM",
-        "Message": "Field 'Category.Code' in table 'EWAL_SendMoney_Request' is mandatory."
-      }
-    }
-  }
-}
+<!--###ExampleResponse### -->
 <!-- ====================== END EXAMPLE ====================== -->
 </pre>
 
@@ -320,7 +285,7 @@
 							<!-- Area to populate.  -->
 							<tbody>
 								<tr>
-									<td> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse arcu libero, laoreet ac maximus in, ultrices eu nisl. Nulla imperdiet ex id arcu finibus, eget molestie augue cursus. Mauris ac turpis nec sapien molestie interdum vitae ac diam. Quisque in consectetur velit, non lacinia nibh. Nunc placerat ex ac libero molestie volutpat. Nam felis arcu, scelerisque non lorem id, auctor finibus arcu. Sed pretium quam enim, et euismod eros consectetur sed. Vivamus efficitur fermentum pulvinar. </td>
+									<td><!--###ExampleComment### --></td>
 								</tr>
 							</tbody>
 							<!-- / End area to populate -->
@@ -340,7 +305,7 @@
 							<!-- Area to populate.  -->
 							<tbody>
 								<tr>
-									<td> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse arcu libero, laoreet ac maximus in, ultrices eu nisl. Nulla imperdiet ex id arcu finibus, eget molestie augue cursus. Mauris ac turpis nec sapien molestie interdum vitae ac diam. 
+									<td>2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse arcu libero, laoreet ac maximus in, ultrices eu nisl. Nulla imperdiet ex id arcu finibus, eget molestie augue cursus. Mauris ac turpis nec sapien molestie interdum vitae ac diam. 
 
 									Quisque in consectetur velit, non lacinia nibh. Nunc placerat ex ac libero molestie volutpat. Nam felis arcu, scelerisque non lorem id, auctor finibus arcu. Sed pretium quam enim, et euismod eros consectetur sed. Vivamus efficitur fermentum pulvinar.
 									Quisque in consectetur velit, non lacinia nibh. Nunc placerat ex ac libero molestie volutpat. Nam felis arcu, scelerisque non lorem id, auctor finibus arcu. Sed pretium quam enim, et euismod eros consectetur sed. Vivamus efficitur fermentum pulvinar. </td>
