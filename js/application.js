@@ -52,7 +52,8 @@ $(document).ready(function () {
 	requestPage();
 	// example Command Select
 	// exampleSelect();
-
+	//example request field
+	requestVirtualField();
 	// konami code
 	konami();
 
@@ -141,6 +142,71 @@ function requestPage(){
 function exampleSelect(){
 
 	$(document).on('change','select.example',function(e){
+		// prevent href from triggering
+		e.preventDefault();
+		// set variables
+		var link = $(this).val;
+		var linkHref = 'http://192.168.1.12:8080' + link;
+		var Headers = {
+			'User-Name':'Master',
+			'User-Password':'WDT',
+			'eConnect-Version':'2.0',
+			'TypeOfRequest':'Schema'
+		}
+		// check header data
+		// console.log(Headers);
+		// perform rest GET request
+		$.ajax({
+			method: 'GET',
+			url: linkHref,
+			headers: Headers,
+			dataType: 'html',
+			crossDomain:true, 
+			// wait five seconds before timeout
+			timeout: 15000,
+
+			success : function(data){
+				// select main_col data and append
+				
+				console.log('data updated from ' + linkHref);
+				console.log(data);
+
+				var main_col = $('<div />').append(data).find('#bodyContainer').html();
+				$('#bodyContainer').html(main_col);
+
+				// var main_col = $('<div />').append(data).find('.main').html();
+				// $('.main').html(main_col);
+			},
+
+			error: function(x, t, m) {
+				if(t==="timeout") {
+					swal({
+						title: "Error!",
+						text: "The request for " + linkHref + " timed out",
+						type: "error",
+						confirmButtonText: "Close"
+					});
+				} else {
+					alert(t);
+					swal({
+						title: "Error!",
+						text: "Something went wrong",
+						type: "error",
+						confirmButtonText: "Close"
+					});
+				}
+			}
+		});
+	});
+
+}
+
+
+
+// virtual field function
+function requestVirtualField(){
+
+	$(document).on('click','#accordion1 li a',function(e){
 		// prevent href from triggering
 		e.preventDefault();
 		// set variables
