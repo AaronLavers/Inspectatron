@@ -1,0 +1,955 @@
+<div class="row" id="introduction">
+
+<h3>What is eConnect</h3>
+
+<p>eConnect is how you connect your Web or Mobile application with ePremium. This is implemented via the paradigm of a 'virtual' database, or DAL (data access layer).</p>
+
+<p>As such, eConnect offers a comprehensive list of virtual tables, and virtual fields for these tables. You can create, modify, and delete records in these tables, retrieve individual records or execute queries and retrieve any number of records with one request.</p>
+
+<p>In addition to that, eConnect also offers the concept of function calls, where you pass certain parameters and retrieve results.</p>
+
+<p>The virtual tables are designed to offer you high level access to ePremium's backend, shielding you both from ePremium's complexities and any particular implementation details. </p>
+
+<p>For example, while many tables are mapped to a corresponding table in the back-end database, other tables are instead mapped against data retrieved in real-time from external service provides. eConnect makes your software independent of the actual source of the data.</p>
+
+<hr>
+
+<h3>URL</h3>
+
+<p><strong><em>HostName:portNumber/4DAction</em></strong></p>
+
+<hr>
+
+
+<h3>Headers</h3>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th style="width:18%;">Mandatory</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Content-Type</td>
+			<td>text/json</td>
+		</tr>
+		<tr>
+			<td>MasterUser-Name</td>
+			<td><em>supplied</em></td>
+		</tr>
+		<tr>
+			<td>MasterUser-Password</td>
+			<td><em>supplied</em></td>
+		</tr>
+		<tr>
+			<td>Cookie-Token</td>
+			<td>Unique identifier that needs to stay constant at least for the session, ideally for the device the the enduser uses.</td>
+		</tr>
+		<tr>
+			<td>eConnect-Version</td>
+			<td>2.0<br /> Passing this header will ensure backward compatibilty with any future versions of eConnect.</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th style="width:18%;">Optional</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Operator-ID</td>
+			<td>The particular end user logged in at the time. <br />If not supplied, the specified master user is used. <br />The ID is a 32 character key, uniquely identifying this operator.</td>
+		</tr>
+		<tr>
+			<td>Operator-Password</td>
+			<td>Needs to be specified if 'Operator-ID' is passed</td>
+		</tr>
+		<tr>
+			<td>Language-Code</td>
+			<td>example: en-au<br />If not passed the default operating language of the system is used</td>
+		</tr>
+		<tr>
+			<td>IP-Address</td>
+			<td>(of the client)<br />For auditing purposes</td>
+		</tr>
+		<tr>
+			<td>GPS-Location-dms <strong>*</strong></td>
+			<td>In degrees-minutes-seconds<br />example: 31:57:8-S/115:51:32-W<br />For auditing purposes</td>
+		</tr>
+		<tr>
+			<td>GPS-Location-r <strong>*</strong></td>
+			<td>In real values<br />example: 31.9522-S/115.8589-W<br />For auditing purposes</td>
+		</tr>
+		<tr>
+			<td colspan="2"><strong>*</strong> You can pass the GPS location in either format.</td>
+		</tr>
+	</tbody>
+</table>
+
+<hr>
+
+<h3>General Syntax Rules</h3>
+
+<h4>Transactions</h4>
+
+<p>Each eConnect request can contain a number of transactions, which must be identified by unique transaction names. For example:</p>
+
+<p class="lead"><strong>Example Request with Two Transactions</strong></p>
+
+<pre>
+{
+	"Transaction1": {
+		"Command": "ping"
+	},
+	"Transaction2": {
+		"Command": "get",
+		"Table": "TimeStamp",
+		"ID": "Any_ID_Will_Do",
+		"Fields": [
+			"TimeStamp"
+		]
+	}
+}
+
+</pre>
+
+						<p class="lead"><strong>Response</strong></p>
+
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+		"Result": "OK",
+			"Data": {
+				"eConnect-Version": "2.0",
+                			"ePremium-Version": "6.2.41 28-09-2016 i Consumer Funding (interpreted)",
+				"Date-Time": "2016-10-04 09:04:13",
+				"Host-IP": "192.168.1.48:8080"
+  			}
+		},
+		 "Transaction2": {
+			"Result": "OK",
+				"Data": {
+				"TimeStamp": "7JEMYF040D"
+			}
+		 }
+	}
+}
+
+</pre>
+
+<hr>
+
+<h3>Commands</h3>
+
+<p>All eConnect transactions must have a "Command" element.
+Supported commands are</p>
+
+<ul>
+<li>ping</li>
+<li>get</li>
+<li>create</li>
+<li>modify</li>
+<li>query</li>
+<li>delete</li>
+<li>canDelete</li>
+<li>function</li>
+</ul>
+
+<p>The syntax of each command is documented in the relevant section.</p>
+
+<hr>
+
+<h3>Result Syntax</h3>
+
+<p>Each request will return the following data:</p>
+
+<ul>
+	<li>
+	"OverallResult":
+		<ul>
+			<li>This can be either"Error" or "OK"</li>
+
+			<li>It will be "Error" if there is an overall problem with your request, such as missing headers, invalid jason, or an authentication error. In this case there will be two more items:</li>
+		</ul>
+	</li>
+
+	<li>
+	If "OverallResult" is "Error"
+		<ul>
+			<li>"Error.Type": <br />
+			This will contain a 4 letter error type, such as "AUTH" for an authentication error.</li>
+
+			<li>"Error.Message": <br />
+			This will contain a human readable error message.</li>
+		</ul>
+	</li>
+
+
+
+	<li>
+		If "OverallResult" is "OK", the remainder of the response contains one item for each transaction, identified by the unique transaction names.
+	</li>
+</ul>
+
+
+
+<p><strong>NOTE:</strong> <br />Even if "OverallResult" is "OK", individual transactions can still fail (i.e. if you pass an invalid table or field name). <br />
+Responses to each individual transaction will always contain a "Result" element, which will be either "OK" or "Error". If it is "Error", there will also be two elements labelled "Error.Type" and "Error.Message".</p>
+
+<p><strong>NOTE:</strong> <br />Syntactical eConnect request elements such as "Command", "Table", or "Fields" are case sensitive. Field and table names are not case sensitive, nor are queries to the database itself.</p>
+
+<p><em>I.e. the command</em><br />
+	{ "COMMAND": "ping"} <br />
+<em>will fail, it needs to be</em> <br />
+	{ "command": "ping"}</p>
+
+<p>However, a query to "Name =Bob" will return the same result as "Name=BOB", and a query to "NAME=Bob" will work just as well as the query "Name=Bob".</p>
+
+
+<p>For example:</p>
+<pre>
+{
+    "OverallResult": "OK",
+    "Transactions": {
+        "Transaction1": {
+            "Result": "Error",
+            "Error": {
+                "Type": "DATA",
+                "Message": "Record '953F...1FFC' in table 'Customer' not found."
+            }
+        }
+    }
+}
+</pre>
+
+<p>Each transaction in turn contains an item "Result", which will be either "OK" or "Error". <br />
+If it is "OK", the transaction will also contain a "Data" item, which will contain the result of the transaction. The format of the data item depends on the type of command.<br />
+If it is "Error", the transaction will also contain an "Error" item, with two nested items, "Type" and "Message".</p>
+
+<p><strong>Dot notation:</strong><br />
+In the documentation you will frequently come across field names containing dots. The dot notation is used as a shortcut for denoting nested JSON elements.
+For example the fieldnames "Repayments.Count" and "Repayments.Frequency" are the equivalent of the following JSON:</p>
+
+<pre>
+"Repayments": {
+	"Count": "value",
+	"FrequencyCode": "value"
+}
+</pre>
+
+<hr>
+
+<h3>Formatting literal data items</h3>
+
+<p>All values need to be passed as text, and will be returned as text</p>
+
+<p>Boolean values need to be encoded as "1" and "0"</p>
+
+<p>Dates need to be encoded always as YYYY-MM-DD, times as hh:mm:ss.</p>
+
+<p>Pictures and binary data need to be encoded in Base64.</p>
+
+
+<h4>Command: ping</h4>
+
+<p class="lead"><strong>Request (example)</strong></p>
+<pre>
+{
+	" Transaction1": {
+		"Command": "ping",
+}
+</pre>
+<p class="lead"><strong>Response (example)</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+			"Result": "OK",
+			"Data": {
+				"eConnect-Version": "2.0",
+				"ePremium-Version": "6.2.41 28-09-2016 i Consumer Funding (interpreted)",
+				"Date-Time": "2016-10-03 11:31:56",
+				"Host-IP": "192.168.1.48:8080"
+			}
+		}
+	}
+}
+</pre>
+<h4>Command: get</h4>
+
+<p class="lead"><strong>Request Syntax</strong></p>
+<pre>
+{
+	"transactionName": {
+		"Command": "get",
+		"Table": "tableName",
+		"ID": "ID",
+		"Fields": arrayOfFieldNames
+	}
+}
+</pre>
+<p class="lead"><strong>Response Syntax</strong></p>
+<pre>
+{
+    "OverallResult": "OK",
+    "Transactions": {
+        " transactionName ": {
+            "Result": "OK",
+            "Data": {
+                list of fieldName-value pairs
+            }
+        }
+    }
+}
+</pre>
+
+<p class="lead"><strong>Request Example</strong></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "get",
+		"Table": "Customer",
+		"ID": "953F4438253F4659A389F16546A81FFC",
+		"Fields": [
+			"Name",
+			"FirstName",
+			"DateOfBirth",
+			"Salutation",
+			"CanBeOperator"
+		]
+	}
+}
+</pre>
+<p class="lead"><strong>Response Example</strong></p>
+<pre>
+{
+ 	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+   			"Result": "OK",
+           		 "Data": {
+               			"Name": "Sajani",
+               			"FirstName": "Angelika",
+                			"DateOfBirth": "1965-02-12",
+               			"Salutation": "Ms",
+                			"CanBeOperator": "1"
+			}
+		 }
+	  }
+}
+</pre>
+<h4>Command: create</h4>
+
+<p class="lead"><strong>Request Syntax</strong></p>
+<pre>
+{
+	"transactionName": {
+		"Command": "create",
+		"Table": "tableName",
+		"Values":  { list of fieldName-value pairs }
+	}
+}
+</pre>
+
+<p class="lead"><strong>Response Syntax</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"transactionName": {
+			"Result": "OK",
+				"Data": {
+					"ID": "ID"
+					"LastModified": "timeStamp"
+			}
+		}
+	}
+}
+</pre>
+
+<p class="lead"><strong>Request Example</strong></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "create",
+		"Table": "Customer",
+		"Values": {
+			"FirstName": "Jane",
+			"Name": "Doe",
+			"Salutation": "Mrs",
+			"CardType": "Consumer - Individual"
+		}
+	}
+}
+</pre>
+<p class="lead"><strong>Response Example</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+            			"Result": "OK",
+			"Data": {
+				"ID": "A9B7EF7D053F4B3C9581C05530F3ED48",
+				"LastModified": "7JEOOZI1HS"
+			}
+		}
+	}
+}
+</pre>
+<h4>Command: modify</h4>
+
+<p class="lead"><strong>Request Syntax</strong></p>
+<pre>
+{
+	"transactionName": {
+		"Command": "modify",
+		"Table": "tableName",
+		"ID": "ID",
+		"Values":  { list of fieldName-value pairs }
+	}
+}
+</pre>
+
+<p><strong>Note:</strong> <br />The field "LastModified" is mandatory when using the 'modify' command.<br />
+You need to either retrieve via the 'get' or 'query' command, or store the value returned by the 'create' command.</p>
+
+<p>If the value passed in 'LastModified' does not match the value stored in the back-end, it means that the record has been modified in the backend since the record has last been retrieved by eConnect. In this case the record needs to be retrieved again (using the get command), and then resubmitted again with any necessary changes. </p>
+
+<p>If it wasn't for this process, the changes made by the backend-operator would be lost.</p>
+
+<p><em>Consider the following example:</em></p>
+
+<p>eConnect retrieves a customer record, with the intent of changing the customers last name from Andrew Green to  Andrew White. The customers address is 5 Main Street.</p>
+
+<p>A backend operator retrieves the same customer record and modifies the address, setting it to 10 Sunset Road.</p>
+
+<p>The eConnect writes the modified customer record. The customers name is now Andrew White, and the address is 5 Main Street. The address change the backend operator has made have been overridden</p>
+
+<p class="lead"><strong>Response Syntax</strong></p>
+<pre>
+{
+    "OverallResult": "OK",
+    "Transactions": {
+        "transactionName": {
+            "Result": "OK",
+            "Data": {
+                "LastModified": "timeStamp"
+            }
+        }
+    }
+}
+</pre>
+
+<p class="lead"><strong>Request Example</strong></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "modify",
+		"Table": "Customer",
+		"ID": "A051D4FBB7F74005B986E057EC9169AC",
+		"Values": {
+			"LastModified": "7IWQ4A016K",
+			"Name": "Meyer",
+			"Salutation": "Mrs"
+		}
+	}
+} 
+</pre>
+<p class="lead"><strong>Response Example</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+			"Result": "OK",
+			"Data": {
+				"LastModified": "7JEOBW06BW"
+			}
+		}
+	 }
+}
+</pre>
+
+<h4>Command: query</h4>
+
+<p class="lead"><strong>Request Syntax</strong></p>
+<pre>
+{
+	"transactionName": {
+		"Command": "query",
+		"Table": "tableName",
+		"Query":  { queryDefinition }
+		"SortFields": arrayOfFieldNames,
+		"Limit": maxNumberOfRecords,
+		"ResultFields": arrayOfFieldNames
+	}
+}
+</pre>
+<p><em>queryDefinition</em> is a list of <em>queryClause</em> items, each identified by a clause-number </p>
+
+<p>Syntax of each queryClause:</p>
+<pre>
+	 {
+		"Field": "fieldName",
+		"Value": "fieldValue",
+		"Conjunction": "conjunction",
+		"Comparitor": "comparitor"
+	 },
+</pre>
+
+<p>You can use wildcards in textual queries - the wild card character is '@'.</p>
+
+<p>"Conjunction"  is an optional item. Possible values are "&amp;" (logical AND), "|" (logical OR), and "#" (logical EXCEPT). </p>
+
+<p>Note that eConnect does not currently support logical bracketing of query clauses. I.e. you cannot enforce a logic such as  (A&amp;B) | (C&amp;D), instead  the execution will be A &amp; B | C &amp; D, executed left to right.</p>
+
+<p>If you don't pass a conjunction, "&amp;" will be assumed. The conjunction of the first query clause will be ignored.</p>
+
+<p>"Comparitor" is also an option item. Possible values are "=", "#" (not equal), "<", "<=", ">", ">=", "IN", and "%" (contains keyword). If no comparitor is passed, "=" is assumed, thus allowing for compact JSON commands for the most common case.  </p>
+
+<p>The "IN" comparitor can only be used for fields that have the corresponding flag ticked. In "Value", pass desired matches separeted by |, for example:
+   "Value": "au|us|mx|de"   (see request example 3).</p>
+
+
+<p>Some fields in certain tables have further restrictions as to which comparitors can be used. These restrictions will be document in the on-line comments for these tables and fields.</p>
+
+<p>The item "ResultFields" allows you to specify which fields you want to be included in your list of results. To minimise network traffic it is recommended that you only include the minium number of fields required.</p>
+
+<p>The  item "SortFields" is optional, and allows you to sort the results by one or more fields. Not all tables can be sorted, and within those tables, not all fields can be used for sorting. Refer to the online documentation for each table to see which tables and fields can be sorted.</p>
+
+<p>If you don't specify a sort order, the order of the result records is undefined.</p>
+
+<p>By default records are sorted ascending; to specify a descending sort order, prefix the name of the sort field with a minus sign.</p>
+
+<p><em>Example</em></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "query",
+		"Table": "EWAL_SendMoney_Request",
+		"Query": {
+			"1": {
+				"Field": "Customer_key",
+				"Value": "A051D4...169AC"
+			},
+			"2": {
+				"Field": "Request.Status",
+				"Value": "SUCC"
+			}
+		},
+       		"SortFields": [
+         			"-Request.Date", 
+         			"-Request.Time"
+      		 ],
+		"ResultFields": [
+			"Currency.Sent.Label",
+			"Currency.Received.Label",
+			"Amount.Sent",
+			.....
+			"Paid.Date",
+			"Paid.Time",
+			"Request.Status"
+		]
+      	}
+}
+</pre>
+<p class="lead"><strong>Response Syntax</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+			"Result": "OK",
+			"Data": {
+				"RecordsFound": "n",
+				 "Records": {
+					"1": {
+						list of fieldName-value pairs
+					 },
+					...
+					"n": {
+						list of fieldName-value pairs
+					}
+				}
+			}
+		}
+	 }
+}
+</pre>
+<p class="lead"><strong>Request Example</strong></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "query",
+		"Table": "Customer",
+		"Query": {
+			"1": {
+				"Field": "FirstName",
+				"Value": "Tony"
+			},
+			"2": {
+				"Field": "Name",
+				"Value": "Peter"
+			}
+		},
+		"ResultFields": [
+			"ID",
+			"FirstName",
+			"MiddleName",
+			"Name",
+			"Salutation",
+			"DateOfBirth"
+		]
+	}
+}
+</pre>
+<p class="lead"><strong>Response Example</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+			"Result": "OK",
+			"Data": {
+				"RecordsFound": "2",
+				 "Records": {
+					"1": {
+						"ID": "E9B2DE018E...7D8D466B85",
+						"FirstName": "Tony",
+						"MiddleName": "Charles",
+						"Name": "Peter",
+						"Salutation": "Mr",
+						"DateOfBirth": "1993-08-24"
+					 },
+					"2": {
+						"ID": "E3C32D71A3...DBC6A8365612B",
+						"FirstName": "Tony",
+						"MiddleName": "Robert",
+						"Name": "Peter",
+						"Salutation": "Dr",
+						"DateOfBirth": "1934-02-01"
+					}
+				}
+			}
+		}
+	 }
+}
+</pre>
+
+<p class="lead"><strong>Request Example 2</strong></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "query",
+		"Table": "Customer",
+		"Query": {
+			"1": {
+				"Field": "DateOfBirth",
+				"Comparitor": ">=",
+				"Value": "1990/01/01"
+			},
+			"2": {
+				"Conjunction": "|",
+				"Field": "Salutation",
+				"Comparitor": "#",
+				"Value": ""
+			}
+		},
+		"ResultFields": [
+			"ID",
+			"FirstName",
+			"MiddleName",
+			"Name",
+			"Salutation",
+			"DateOfBirth"
+		]
+	}
+}
+</pre>
+<p class="lead"><strong>Request Example 2</strong></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "query",
+		"Table": "Country",
+		"Query": {
+			"1": {
+				"Field": "Country.Code",
+				"Comparitor": "IN",
+				"Value": "au|us|mx|de"
+			}
+		},
+		"ResultFields": [
+			"ID",
+			"Country.Name",
+			"Currency.Code.Alpha",
+			"Currency.Name",
+			"PhonePrefix",
+			"States",
+			"Currency.ExRate"
+		]
+	}
+}
+</pre>
+<hr>
+<h4>Command: delete</h4>
+
+<p class="lead"><strong>Request Syntax</strong></p>
+<pre>
+{
+	"transactionName": {
+		"Command": "delete",
+		"Table": "tableName",
+		"ID": "ID"
+		}
+	}
+}
+</pre>
+<p class="lead"><strong>Response Syntax</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+			"Result": "OK" or "Error"
+			}
+		}
+	}
+}
+</pre>
+
+<p class="lead"><strong>Request Example</strong></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "delete",
+		"Table": "Contact",
+		"ID": "E65B1ACA72B44B33A0FBC7DED399EAA6"
+		}
+	}
+}
+</pre>
+<p class="lead"><strong>Response Example (successful)</strong></p>
+<pre>
+{
+    "OverallResult": "OK",
+    "Transactions": {
+        "Transaction1": {
+            "Result": "OK"
+            }
+        }
+    }
+}
+</pre>
+
+<p class="lead"><strong>Response Example (with error)</strong></p>
+
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+		"Result": "Error",
+		"Error": {
+			"Type": "DATA",
+			"Message": "No record with ID E65B1A...AA6 found in table Contact."
+			 }
+		 }
+	}
+}
+</pre>
+<hr>
+<h4>Command: canDelete</h4>
+
+<p>This command acceptes the same parameters as "canDelete", but only tests whether a record can be deleted, rather than actually deleting it. By using this command the frequency of error messages displayed to the end user can be minimised, by not providing the end-user with an interface to delete a record to begin with if the particular record cannot be deleted.</p>
+
+<p>By definition this command ALWAYS succeeds, if the record cannot be deleted or any other error occurs, the result is simply that the record cannot be deleted</p>
+
+<p class="lead"><strong>Request Syntax</strong></p>
+<pre>
+{
+	"transactionName": {
+		"Command": "canDelete",
+		"Table": "tableName",
+		"ID": "ID"
+		}
+	}
+}
+</pre>
+<p class="lead"><strong>Response Syntax (if record can be deleted)</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+			"Result": "OK",
+			"Data": {
+				"CanDelete": "0",
+		 	}
+		}
+	}
+}
+</pre>
+<p class="lead"><strong>Response Syntax (if record cannot be deleted)</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+			"Result": "OK",
+            			"Data": {
+               			 "CanDelete": "0",
+                			"Reason": {
+                   				"Type": "DATA",
+                    				"Message": "No record with ID E65...AA6 found in table Contact."
+				 }
+			}
+		}
+	}
+}
+</pre>
+<hr> 
+
+<h4>Command: function</h4>
+
+<p>This command allows you to pass zero or more parameters (depending on which function you are executing) and receive one or more result values. </p>
+
+<p>Functions are implemented by marking eConnect tables with the flag "IsFunction". These eConnect tables can only be used with the 'function' command.</p>
+
+<p class="lead"><strong>Request Syntax</strong></p>
+<pre>
+{
+	"transactionName": {
+		"Command": "function",
+		"Table": "tableName",
+		"Parameters": {
+			list of parameters 
+			}
+		},
+		"ResultFields": array of field names
+		]
+	}
+}
+</pre>
+<p>Some functions don't require any parameters - in this case you can omit the item "Parameters".</p>
+
+<p class="lead"><strong>Response Syntax </strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+			"Result": "OK",
+			"Data": {
+				list of results
+		 	}
+		}
+	}
+}
+</pre>
+<p class="lead"><strong>Request Example (with parameters)</strong></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "function",
+		"Table": "Repayments2Months",
+		"Parameters": {
+			"Repayments": {
+				"Count": "8",
+				"FrequencyCode": "1"
+			}
+		},
+		"ResultFields": [
+			"DurationInMonths"
+		]
+	}
+}
+</pre>
+<p class="lead"><strong>Request Response </strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+		"Transactions": {
+			"Transaction1": {
+			"Result": "OK",
+			"Data": {
+				"DurationInMonths": "2"
+			}
+		}
+	}
+}
+</pre>
+<p class="lead"><strong>Response Syntax (if record cannot be deleted)</strong></p>
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+			"Result": "OK",
+            			"Data": {
+               			 "CanDelete": "0",
+                			"Reason": {
+                   				"Type": "DATA",
+                    				"Message": "No record with ID E65...AA6 found in table Contact."
+				 }
+			}
+		}
+	}
+}
+</pre>
+<p class="lead"><strong>Request Example</strong></p>
+<pre>
+{
+	"Transaction1": {
+		"Command": "delete",
+		"Table": "Contact",
+		"ID": "E65B1ACA72B44B33A0FBC7DED399EAA6"
+		}
+	}
+}
+</pre>
+<p class="lead"><strong>Response Example (successful)</strong></p>
+<pre>
+{
+    "OverallResult": "OK",
+    "Transactions": {
+        "Transaction1": {
+            "Result": "OK"
+            }
+        }
+    }
+}
+</pre>
+
+<p class="lead"><strong>Response Example (with error)</strong></p>
+
+<pre>
+{
+	"OverallResult": "OK",
+	"Transactions": {
+		"Transaction1": {
+		"Result": "Error",
+		"Error": {
+			"Type": "DATA",
+			"Message": "No record with ID E65B1A...AA6 found in table Contact."
+			 }
+		 }
+	}
+}
+</pre>
+
+
+
+					</div>	
+
