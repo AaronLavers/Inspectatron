@@ -24,7 +24,7 @@ body {
   right:0;
   bottom:0;
   background: #fff;
-  z-index:1029;
+  z-index:1001;
 }
 #loading-indicator img{
   position: absolute;
@@ -162,7 +162,7 @@ td.cross span:before {
     top: 51px;
     bottom: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 1001;
     display: block;
     padding: 20px;
     overflow-x: hidden;
