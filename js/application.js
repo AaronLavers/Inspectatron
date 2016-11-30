@@ -140,7 +140,7 @@ function requestPage(){
 // example command dropdown function
 function exampleSelect(){
 
-	$(document).on('click','#accordion1 li a',function(e){
+	$(document).on('change','select.example',function(e){
 		// prevent href from triggering
 		e.preventDefault();
 		// set variables
