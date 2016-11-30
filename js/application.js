@@ -92,7 +92,7 @@ function requestPage(){
 					  title: "Error!",
 					  text: "The request for " + linkHref + " timed out",
 					  type: "error",
-					  confirmButtonText: "Shit shit fuckity shit fuck"
+					  confirmButtonText: "Close"
 					});
 		        } else {
 		            alert(t);
