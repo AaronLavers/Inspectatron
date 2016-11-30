@@ -17,12 +17,16 @@ $(document).ready(function () {
 		// Succeffully connected
 		success: function(data){
 			// return success
-			console.log('succes: loaded data');
+			// console.log('succes: loaded data');
 			// console.log(data);
 			// console.log('succes: '+data);
 			// select menu data and append to side bar
 			var menu = $('<div />').append(data).find('#accordion1').html();
 			$('#accordion1').html(menu);
+			// select intro data and append to main column
+			var introductions = $('<div />').append(data).find('#introduction').html();
+			$('#bodyContainer .main').html(introductions);
+
 		},
 		// unsuccefful connection
 		error: function(x, t, m) {
@@ -53,7 +57,7 @@ $(document).ready(function () {
 	// example Command Select
 	// exampleSelect();
 	//example request field
-	requestVirtualField();
+	// requestVirtualField();
 	// konami code
 	konami();
 
@@ -89,6 +93,12 @@ function requestPage(){
 			'eConnect-Version':'2.0',
 			'TypeOfRequest':'Schema'
 		}
+
+		if (link.attr('href') == '/4DAction/TypeOfRequest=Schema') {
+		    $('#baseSection').hide();
+		    $('h2.sub-header').hide();
+		    console.log('Introduction page');
+		 }
 		// check header data
 		// console.log(Headers);
 		// perform rest GET request
@@ -104,8 +114,8 @@ function requestPage(){
 			success : function(data){
 				// select main_col data and append
 				
-				console.log('data updated from ' + linkHref);
-				console.log(data);
+				// console.log('data updated from ' + linkHref);
+				// console.log(data);
 
 				var main_col = $('<div />').append(data).find('#bodyContainer').html();
 				$('#bodyContainer').html(main_col);
@@ -142,8 +152,7 @@ function requestPage(){
 function exampleSelect(){
 
 	$(document).on('change','select.example',function(e){
-		// prevent href from triggering
-		e.preventDefault();
+
 		// set variables
 		var link = $(this).val;
 		var linkHref = 'http://192.168.1.12:8080' + link;
@@ -162,20 +171,15 @@ function exampleSelect(){
 			headers: Headers,
 			dataType: 'html',
 			crossDomain:true, 
-			// wait five seconds before timeout
-			timeout: 15000,
+			timeout: 5000,
 
 			success : function(data){
-				// select main_col data and append
 				
 				console.log('data updated from ' + linkHref);
 				console.log(data);
 
 				var main_col = $('<div />').append(data).find('#bodyContainer').html();
 				$('#bodyContainer').html(main_col);
-
-				// var main_col = $('<div />').append(data).find('.main').html();
-				// $('.main').html(main_col);
 			},
 
 			error: function(x, t, m) {
@@ -234,7 +238,7 @@ function requestVirtualField(){
 				// select main_col data and append
 				
 				console.log('data updated from ' + linkHref);
-				console.log(data);
+				// console.log(data);
 
 				var main_col = $('<div />').append(data).find('#bodyContainer').html();
 				$('#bodyContainer').html(main_col);
