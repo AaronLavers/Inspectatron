@@ -29,6 +29,8 @@ $(document).ready(function () {
 	// Start menu click function
 	requestPage()
 
+
+
 });
 
 
@@ -81,11 +83,17 @@ function requestPage(){
 	            } else{
 	                alert('error with your code ' + linkHref);
 	                console.log(data);
+
 	            }
 	        },
 	        error: function(x, t, m) {
 		        if(t==="timeout") {
-		            alert("Request timed out");
+		            swal({
+					  title: "Error!",
+					  text: "The request for " + linkHref + " timed out",
+					  type: "error",
+					  confirmButtonText: "Shit shit fuckity shit fuck"
+					});
 		        } else {
 		            alert(t);
 		        }
