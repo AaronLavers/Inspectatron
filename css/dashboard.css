@@ -108,7 +108,7 @@ table.comments {
   margin-bottom: 10px;
 }
 
-table.examples thead, table.examples tbody { display: inline-block; }
+/*table.examples thead, table.examples tbody { display: inline-block; }*/
 
 table.examples tbody {
   height: 280px;       /* Just for the demo          */
