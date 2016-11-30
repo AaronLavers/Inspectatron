@@ -17,6 +17,20 @@ body {
   margin-left: 5px;
   font-size: 20px;
 }*/
+#loading-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right:0;
+  bottom:0;
+  background: rgba(255,255,255,0.5);
+  z-index:999;
+}
+#loading-indicator img{
+  position: absolute;
+  top:50%;
+  left:50%;
+}
 
 .logocon {
   position: relative;

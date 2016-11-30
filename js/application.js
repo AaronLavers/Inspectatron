@@ -31,7 +31,13 @@ $(document).ready(function () {
 
 });
 
+$(document).ajaxSend(function(event, request, settings) {
+  $('#loading-indicator').show();
+});
 
+$(document).ajaxComplete(function(event, request, settings) {
+  $('#loading-indicator').hide();
+});
 
 // menu click function
 function requestPage(){
@@ -53,13 +59,14 @@ function requestPage(){
 		console.log(Headers);
 		// perform rest POST request
 	    $.ajax({
+	    	
 	        method: 'POST',
 		    url: 'http://192.168.1.12:8080/4DAction',
 		    headers: Headers,
 		    dataType: 'html',
 		    crossDomain:true, 
 		    // wait five seconds before timeout
-		    timeout: 5000,
+		    timeout: 3000,
 	        success : function(data){
 	            if(data==1){
 	                alert('click is saved OK' + linkHref);
@@ -73,7 +80,14 @@ function requestPage(){
 	                alert('error with your code ' + linkHref);
 	                console.log(data);
 	            }
-	        }
+	        },
+	        error: function(x, t, m) {
+		        if(t==="timeout") {
+		            alert("Request timed out");
+		        } else {
+		            alert(t);
+		        }
+		    }
 	    });
 
 	});
