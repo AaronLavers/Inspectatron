@@ -24,7 +24,7 @@ body {
   right:0;
   bottom:0;
   background: #fff;
-  z-index:999;
+  z-index:1029;
 }
 #loading-indicator img{
   position: absolute;
