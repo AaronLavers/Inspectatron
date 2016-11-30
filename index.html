@@ -417,35 +417,6 @@
 	<script src="js/ie10-viewport-bug-workaround.js"></script> -->
 	<script src="js/bootstrap-list-filter.src.js"></script>
 
-	 <script>
-	  $(document).ready(function () {
-
-	  	$.ajax({
-	  		// request data
-	  		method: 'POST',
-		    url: 'http://192.168.1.12:8080/4DAction',
-		    headers: {
-		        'User-Name':'Master',
-		        'User-Password':'WDT',
-		        'eConnect-Version':'2.0',
-		        'TypeOfRequest':'Schema'
-		    },
-		    dataType: 'html',
-		    crossDomain:true, 
-		    // data: YourData,
-		    success: function(data){
-		    	// return success
-		      	console.log('succes: '+data);
-		      	// select menu data and append to side bar
-		      	var menu = $('<div />').append(data).find('#accordion1').html();
-		      	$('#accordion1').html(menu);
-		    }
-		  });
-
-	  	// Search list
-			$('#accordion1').btsListFilter('#searchinput', {itemChild: 'a'});
-	  	});
-
-	  </script>
+	 <script src="js/application.js"></script>
 </body>
 </html>
