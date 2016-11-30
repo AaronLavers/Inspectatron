@@ -235,11 +235,11 @@
 								<tr>
 									<td class="name"> <span><!--###TableName### --></span> </td>
 									<td class="description"> <span><!--###TableDescription### --></span> </td>
-									<td class="cross"> <span><!--###TableCanCreate### --></span> </td>
-									<td class="cross"> <span><!--###TableCanModify### --></span> </td>
-									<td class="cross"> <span><!--###TableCanSort### --></span> </td>
-									<td class="cross"> <span><!--###TableCanQuery### --></span> </td>
-									<td class="cross"> <span><!--###TableIsFunction### --></span> </td>
+									<td class="cross"> <!--###TableCanCreate### --> </td>
+									<td class="cross"> <!--###TableCanModify### --> </td>
+									<td class="cross"> <!--###TableCanSort### --> </td>
+									<td class="cross"> <!--###TableCanQuery### --> </td>
+									<td class="cross"> <!--###TableIsFunction### --> </td>
 									<td class="tags"> <span><!--###TableTags### --></span> </td>
 								</tr>
 							</tbody>
@@ -270,62 +270,21 @@
 							</thead>
 							<!-- Area to populate. For ease of styling, wrapping all content in <span></span> tags would be ideal -->
 							<tbody>
-								<!-- row -->
+								<!--###FieldRowStart### -->
 								<tr>
-									<td class="name"> <span>CLABE_Number</span> </td>
-									<td class="type"> <span>T</span> </td>
-									<td class="cross"> <span>x</span> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> <span>x</span>	</td>
-									<td class="cross"> </td>
-									<td class="comparitor"> <span>=</span>	</td>
-									<td class="description"> </td>
+									<td class="name"> <span><!--###FieldName### --></span> </td>
+									<td class="type"> <span><!--###FieldType### --></span> </td>
+									<td class="cross"> <!--###FieldMandatory### --> </td>
+									<td class="cross"> <!--###FieldCanGet### --> </td>
+									<td class="cross"> <!--###FieldSetOnce### --> </td>
+									<td class="cross"> <!--###FieldCanModify### --> </td>
+									<td class="cross"> <!--###FieldCanSort### --> </td>
+									<td class="cross"> <!--###FieldCanQuery### --> </td>
+									<td class="cross"> <!--###FieldINQuery### --> </td>
+									<td class="comparitor"> <span><!--###FieldQueryComparitors### --></span>	</td>
+									<td class="description"> <!--###FieldLookupInfo### --> </td>
 								</tr>
-								<!-- row -->
-								<tr>
-									<td class="name"> <span>ChequeOrSavings</span> </td>
-									<td class="type"> <span>T</span> </td>
-									<td class="cross"> <span>x</span> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> <span>x</span>	</td>
-									<td class="cross"> </td>
-									<td class="comparitor"> <span>=</span>	</td>
-									<td class="description"> <span>C:BankAccountType:Code</span> </td>
-								</tr>
-								<!-- row -->
-								<tr>
-									<td class="name"> <span>IsSupported</span> </td>
-									<td class="type"> <span>B</span> </td>
-									<td class="cross"> </td>
-									<td class="cross"> <span>x</span> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="comparitor">	</td>
-									<td class="description"> </td>
-								</tr>
-								<!-- row -->
-								<tr>
-									<td class="name"> <span>WhyNot</span> </td>
-									<td class="type"> <span>B</span> </td>
-									<td class="cross"> </td>
-									<td class="cross"> <span>x</span> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="cross"> </td>
-									<td class="comparitor">	</td>
-									<td class="description"> </td>
-								</tr>
+								<!--###FieldRowEnd### -->
 							</tbody>
 							<!-- / End area to populate -->
 						</table>
