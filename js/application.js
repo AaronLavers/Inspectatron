@@ -133,7 +133,7 @@ function konami(){
 	egg
 	  .addCode("up,up,down,down,left,right,left,right,b,a", function() {
 	    jQuery('#egggif').fadeIn(500, function() {
-	      window.setTimeout(function() { jQuery('#egggif').hide(); }, 5000);
+	      window.setTimeout(function() { jQuery('#egggif').fadeOut(); }, 5000);
 	    });
 	  })
 	  .addHook(function(){
