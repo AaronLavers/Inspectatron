@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Access-Control-Allow-Origin" content="*"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<meta name="description" content="">
@@ -25,6 +26,9 @@
 	  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	  <![endif]-->
+
+
+	 
 
 	</head>
 
@@ -66,23 +70,26 @@
 				<div class="col-sm-3 col-md-2 sidebar">
 					<h4>Virtual Tables</h4>
 
-					<form class="navbar-form">
-			            <input type="text" class="form-control" placeholder="Search...">
-			          </form>
+					<form class="navbar-form" role="form">
+						<div class="form-group">
+			            	<input id="searchinput" type="search" class="form-control" placeholder="Search...">
+			          	</div>
 
-			        <!-- Side Menu main container -->
-					<ul class="nav nav-stacked nav-sidebar" id="accordion1">
+				        <!-- Side Menu main container -->
+						<ul class="nav nav-stacked nav-sidebar form-group" id="accordion1">
 
-						<!-- Static link, no subcategories -->
-						<li><a href="Introduction">Introduction</a></li>
+							<!-- Static link, no subcategories -->
+							<li><a href="Introduction">Introduction</a></li>
 
-                      <!-- the placeholder below will be replaced with one line for each eConnect table -->
-                      <!-- of the format <li><a href="TableName-ActualTableName">TableName</a></li>
-                      <!--###List_of_Tables### -->
-                        
+	                      <!-- the placeholder below will be replaced with one line for each eConnect table -->
+	                      <!-- of the format <li><a href="TableName-ActualTableName">TableName</a></li>
+	                      <!--###List_of_Tables### -->
+	                        
 
-			        </ul>
-			        <!-- /end Side Menu main container -->
+				        </ul>
+			        	<!-- /end Side Menu main container -->
+
+			    	</form>
 
 				</div>
 
@@ -392,10 +399,9 @@
 			        
 				</div>
 
-
-
 			</div>
 		</div>
+
 
 
 
@@ -409,5 +415,37 @@
 	<script src="js/vendor/holder.min.js"></script>-->
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug 
 	<script src="js/ie10-viewport-bug-workaround.js"></script> -->
+	<script src="js/bootstrap-list-filter.src.js"></script>
+
+	 <script>
+	  $(document).ready(function () {
+
+	  	$.ajax({
+	  		// request data
+	  		method: 'POST',
+		    url: 'http://192.168.1.12:8080/4DAction',
+		    headers: {
+		        'User-Name':'Master',
+		        'User-Password':'WDT',
+		        'eConnect-Version':'2.0',
+		        'TypeOfRequest':'Schema'
+		    },
+		    dataType: 'html',
+		    crossDomain:true, 
+		    // data: YourData,
+		    success: function(data){
+		    	// return success
+		      	console.log('succes: '+data);
+		      	// select menu data and append to side bar
+		      	var menu = $('<div />').append(data).find('#accordion1').html();
+		      	$('#accordion1').html(menu);
+		    }
+		  });
+
+	  	// Search list
+			$('#accordion1').btsListFilter('#searchinput', {itemChild: 'a'});
+	  	});
+
+	  </script>
 </body>
 </html>
