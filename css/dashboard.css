@@ -167,6 +167,14 @@ td.cross span:before {
   font-size: 13px;
 }
 
+#virtField tr {
+  cursor: pointer;
+}
+
+#virtField tr:hover {
+  background-color: #efefef;
+}
+
 /*
  * Sidebar
  */
