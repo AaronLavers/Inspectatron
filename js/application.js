@@ -31,12 +31,14 @@ $(document).ready(function () {
 
 });
 
-$(document).ajaxSend(function(event, request, settings) {
-  $('#loading-indicator').show();
-});
 
+// Show pacman when loading
+$(document).ajaxSend(function(event, request, settings) {
+  $('#loading-indicator').fadeIn('fast');
+});
+// Hide pacman when finished
 $(document).ajaxComplete(function(event, request, settings) {
-  $('#loading-indicator').hide();
+  $('#loading-indicator').fadeOut('fast');
 });
 
 // menu click function
@@ -59,14 +61,14 @@ function requestPage(){
 		console.log(Headers);
 		// perform rest POST request
 	    $.ajax({
-	    	
+
 	        method: 'POST',
 		    url: 'http://192.168.1.12:8080/4DAction',
 		    headers: Headers,
 		    dataType: 'html',
 		    crossDomain:true, 
 		    // wait five seconds before timeout
-		    timeout: 3000,
+		    timeout: 5000,
 	        success : function(data){
 	            if(data==1){
 	                alert('click is saved OK' + linkHref);
