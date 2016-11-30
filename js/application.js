@@ -12,6 +12,8 @@ $(document).ready(function () {
 	    },
 	    dataType: 'html',
 	    crossDomain:true, 
+	    timeout: 5000,
+	    // Succeffully connected
 	    success: function(data){
 	    	// return success
 	    	console.log('succes: loaded data');
@@ -19,7 +21,25 @@ $(document).ready(function () {
 	      	// select menu data and append to side bar
 	      	var menu = $('<div />').append(data).find('#accordion1').html();
 	      	$('#accordion1').html(menu);
-	    }
+	    },
+	    // unsuccefful connection
+	    error: function(x, t, m) {
+		    if(t==="timeout") {
+		        swal({
+				  title: "Error!",
+				  text: "The API timed out",
+				  type: "error",
+				  confirmButtonText: "Close"
+				});
+		    } else {
+		        swal({
+				  title: "Error!",
+				  text: "The API is broken or some such",
+				  type: "error",
+				  confirmButtonText: "Close"
+				});
+		    }
+		}
 	  });
 
 
@@ -71,6 +91,7 @@ function requestPage(){
 		    crossDomain:true, 
 		    // wait five seconds before timeout
 		    timeout: 5000,
+
 	        success : function(data){
 	            if(data==1){
 	                alert('click is saved OK' + linkHref);
@@ -86,6 +107,7 @@ function requestPage(){
 
 	            }
 	        },
+
 	        error: function(x, t, m) {
 		        if(t==="timeout") {
 		            swal({
@@ -96,6 +118,12 @@ function requestPage(){
 					});
 		        } else {
 		            alert(t);
+		            swal({
+					  title: "Error!",
+					  text: "Something went wrong",
+					  type: "error",
+					  confirmButtonText: "Close"
+					});
 		        }
 		    }
 	    });
