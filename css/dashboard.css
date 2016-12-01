@@ -100,7 +100,7 @@ select.example {
 table.comments thead, table.comments tbody { display: block; }
 
 table.comments tbody {
-  height: 280px;       /* Just for the demo          */
+  max-height: 280px;       /* Just for the demo          */
   overflow-y: auto;    /* Trigger vertical scroll    */
   overflow-x: hidden;  /* Hide the horizontal scroll */
 }
