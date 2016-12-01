@@ -54,10 +54,13 @@ $(document).ready(function () {
 
 	// Start menu click function
 	requestPage();
+
 	// example Command Select
 	// exampleSelect();
+
 	//example request field
-	// requestVirtualField();
+	requestVirtualField();
+
 	// konami code
 	konami();
 
@@ -115,7 +118,7 @@ function requestPage(){
 				// select main_col data and append
 				
 				// console.log('data updated from ' + linkHref);
-				// console.log(data);
+				console.log(data);
 
 				var main_col = $('<div />').append(data).find('#bodyContainer').html();
 				$('#bodyContainer').html(main_col);
@@ -210,12 +213,12 @@ function exampleSelect(){
 // virtual field function
 function requestVirtualField(){
 
-	$(document).on('click','#accordion1 li a',function(e){
+	$(document).on('click','#virtField tbody tr',function(e){
 		// prevent href from triggering
 		e.preventDefault();
 		// set variables
 		var link = $(this);
-		var linkHref = 'http://192.168.1.12:8080' + link.attr('href');
+		var linkHref = 'http://192.168.1.12:8080' + link.attr('class');
 		var Headers = {
 			'User-Name':'Master',
 			'User-Password':'WDT',
@@ -223,7 +226,7 @@ function requestVirtualField(){
 			'TypeOfRequest':'Schema'
 		}
 		// check header data
-		// console.log(Headers);
+		console.log(linkHref);
 		// perform rest GET request
 		$.ajax({
 			method: 'GET',
