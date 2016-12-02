@@ -56,7 +56,7 @@ $(document).ready(function () {
 	requestPage();
 
 	// example Command Select
-	// exampleSelect();
+	exampleSelect();
 
 	//example request field
 	requestVirtualField();
@@ -118,7 +118,7 @@ function requestPage(){
 				// select main_col data and append
 				
 				// console.log('data updated from ' + linkHref);
-				console.log(data);
+				// console.log(data);
 
 				var main_col = $('<div />').append(data).find('#bodyContainer').html();
 				$('#bodyContainer').html(main_col);
@@ -157,7 +157,9 @@ function exampleSelect(){
 	$(document).on('change','select.example',function(e){
 
 		// set variables
-		var link = $(this).val;
+		var link = $(this).val();
+		console.log(link);
+
 		var linkHref = 'http://192.168.1.12:8080' + link;
 		var Headers = {
 			'User-Name':'Master',
@@ -169,7 +171,7 @@ function exampleSelect(){
 		// console.log(Headers);
 		// perform rest GET request
 		$.ajax({
-			method: 'GET',
+			method: 'POST',
 			url: linkHref,
 			headers: Headers,
 			dataType: 'html',
@@ -194,7 +196,7 @@ function exampleSelect(){
 						confirmButtonText: "Close"
 					});
 				} else {
-					alert(t);
+					// alert(t);
 					swal({
 						title: "Error!",
 						text: "Something went wrong",
