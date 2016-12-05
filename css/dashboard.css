@@ -139,7 +139,7 @@ pre {
   border-radius: 3px;
 }
 table.examples pre {
-  max-height: 500px;
+  height: 30vh;
   overflow-y: scroll;
 }
 td.tags span {
