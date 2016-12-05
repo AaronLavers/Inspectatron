@@ -1,3 +1,5 @@
+var currentPage = '';
+
 $(document).ready(function () {
 
 	
@@ -89,6 +91,12 @@ function requestPage(){
 		e.preventDefault();
 		// set variables
 		var link = $(this);
+
+		// set global current page variable
+		currentPage = $(this).attr('href');
+
+		console.log("the current page is: " + currentPage);
+
 		var linkHref = 'http://192.168.1.12:8080' + link.attr('href');
 		var Headers = {
 			'User-Name':'Master',
@@ -102,6 +110,8 @@ function requestPage(){
 		    $('h2.sub-header').hide();
 		    console.log('Introduction page');
 		 }
+
+
 		// check header data
 		// console.log(Headers);
 		// perform rest GET request
@@ -122,6 +132,14 @@ function requestPage(){
 
 				var main_col = $('<div />').append(data).find('#bodyContainer').html();
 				$('#bodyContainer').html(main_col);
+
+				if (link.attr('href') == '/4DAction/TypeOfRequest=Schema') {
+				    $('#baseSection').hide();
+				    $('h2.sub-header').hide();
+				    console.log('Introduction page');
+				 }
+
+
 
 				// var main_col = $('<div />').append(data).find('.main').html();
 				// $('.main').html(main_col);
@@ -160,7 +178,7 @@ function exampleSelect(){
 		var link = $(this).val();
 		console.log(link);
 
-		var linkHref = 'http://192.168.1.12:8080' + link;
+		var linkHref = 'http://192.168.1.12:8080' + currentPage + "/Example=" + link;
 		var Headers = {
 			'User-Name':'Master',
 			'User-Password':'WDT',
@@ -198,6 +216,7 @@ function exampleSelect(){
 				} else {
 					// alert(t);
 					swal({
+
 						title: "Error!",
 						text: "Something went wrong",
 						type: "error",
@@ -287,6 +306,7 @@ function konami(){
 	  .addHook(function(){
 	    console.log("Hook called for: " + this.activeEgg.keys);
 	    console.log(this.activeEgg.metadata);
+	    console.log("A winner is you!")
 	  }).listen();
     
 }
