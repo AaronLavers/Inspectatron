@@ -1,15 +1,35 @@
 var currentPage = '';
 
+
+// Set horrendously insecure global variables for username and password
+var usernameInput = '';
+var passwordInput = '';
+
+// 202.74.164.30
+
 $(document).ready(function () {
+
+
+	$('#login-modal').modal('show');
+	$('#loading-indicator').show();
+
+
+	$('.loginmodal-submit').on('click', function(e) {
+
+		e.preventDefault();
+
+		// horrendously insecure function for username and password
+		usernameInput = $('#usernameVal').val();
+		passwordInput = $('#passwordVal').val();
 
 	
 	// pageload request data
 	$.ajax({
 		method: 'POST',
-		url: 'http://192.168.1.12:8080/4DAction/TypeOfRequest=Schema',
+		url: 'http://192.168.1.12:8080/4DAction/TypeOfRequest=Schema' + '/UserName=' + usernameInput +'/Password=' + passwordInput,
 		headers: {
-			// 'User-Name':'Master',
-			// 'User-Password':'WDT',
+			// 'UserName':'Master',
+			// 'Password':'WJS',
 			// 'eConnect-Version':'2.0',
 			// 'TypeOfRequest':'Schema'
 		},
@@ -18,6 +38,9 @@ $(document).ready(function () {
 		timeout: 15000,
 		// Succeffully connected
 		success: function(data){
+
+			$('#loading-indicator').hide();
+			$('#login-modal').modal('hide');
 			// return success
 			// console.log('succes: loaded data');
 			// console.log(data);
@@ -42,15 +65,16 @@ $(document).ready(function () {
 			} else {
 				swal({
 					title: "Error!",
-					text: "The API is broken or some such",
+					text: "Something went terribly wrong. It's probably not your fault. Though it might be your fault.",
 					type: "error",
 					confirmButtonText: "Close"
 				});
+
 			}
 		}
 	  });
 
-
+});
 	// Search list
 	$('#accordion1').btsListFilter('#searchinput', {itemChild: 'a'});
 
@@ -97,7 +121,7 @@ function requestPage(){
 
 		// console.log("the current page is: " + currentPage);
 
-		var linkHref = 'http://192.168.1.12:8080' + link.attr('href');
+		var linkHref = 'http://192.168.1.12:8080' + link.attr('href') + '/UserName=' + usernameInput +'/Password=' + passwordInput;
 		var Headers = {
 			// 'User-Name':'Master',
 			// 'User-Password':'WDT',
@@ -178,7 +202,7 @@ function exampleSelect(){
 		var link = $(this).val();
 		// console.log(link);
 
-		var linkHref = 'http://192.168.1.12:8080' + currentPage + "/Example=" + link;
+		var linkHref = 'http://192.168.1.12:8080' + currentPage + "/Example=" + link + '/UserName=' + usernameInput +'/Password=' + passwordInput;
 		var Headers = {
 			// 'User-Name':'Master',
 			// 'User-Password':'WDT',
@@ -239,7 +263,7 @@ function requestVirtualField(){
 		e.preventDefault();
 		// set variables
 		var link = $(this);
-		var linkHref = 'http://192.168.1.12:8080' + link.attr('class');
+		var linkHref = 'http://192.168.1.12:8080' + link.attr('class') + '/UserName=' + usernameInput +'/Password=' + passwordInput;
 		var Headers = {
 			// 'User-Name':'Master',
 			// 'User-Password':'WDT',
