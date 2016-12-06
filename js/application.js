@@ -5,13 +5,13 @@ $(document).ready(function () {
 	
 	// pageload request data
 	$.ajax({
-		method: 'GET',
+		method: 'POST',
 		url: 'http://192.168.1.12:8080/4DAction/TypeOfRequest=Schema',
 		headers: {
-			'User-Name':'Master',
-			'User-Password':'WDT',
-			'eConnect-Version':'2.0',
-			'TypeOfRequest':'Schema'
+			// 'User-Name':'Master',
+			// 'User-Password':'WDT',
+			// 'eConnect-Version':'2.0',
+			// 'TypeOfRequest':'Schema'
 		},
 		dataType: 'html',
 		crossDomain:true, 
@@ -95,20 +95,20 @@ function requestPage(){
 		// set global current page variable
 		currentPage = $(this).attr('href');
 
-		console.log("the current page is: " + currentPage);
+		// console.log("the current page is: " + currentPage);
 
 		var linkHref = 'http://192.168.1.12:8080' + link.attr('href');
 		var Headers = {
-			'User-Name':'Master',
-			'User-Password':'WDT',
-			'eConnect-Version':'2.0',
-			'TypeOfRequest':'Schema'
+			// 'User-Name':'Master',
+			// 'User-Password':'WDT',
+			// 'eConnect-Version':'2.0',
+			// 'TypeOfRequest':'Schema'
 		}
 
 		if (link.attr('href') == '/4DAction/TypeOfRequest=Schema') {
 		    $('#baseSection').hide();
 		    $('h2.sub-header').hide();
-		    console.log('Introduction page');
+		    // console.log('Introduction page');
 		 }
 
 
@@ -136,7 +136,7 @@ function requestPage(){
 				if (link.attr('href') == '/4DAction/TypeOfRequest=Schema') {
 				    $('#baseSection').hide();
 				    $('h2.sub-header').hide();
-				    console.log('Introduction page');
+				    // console.log('Introduction page');
 				 }
 
 
@@ -176,14 +176,14 @@ function exampleSelect(){
 
 		// set variables
 		var link = $(this).val();
-		console.log(link);
+		// console.log(link);
 
 		var linkHref = 'http://192.168.1.12:8080' + currentPage + "/Example=" + link;
 		var Headers = {
-			'User-Name':'Master',
-			'User-Password':'WDT',
-			'eConnect-Version':'2.0',
-			'TypeOfRequest':'Schema'
+			// 'User-Name':'Master',
+			// 'User-Password':'WDT',
+			// 'eConnect-Version':'2.0',
+			// 'TypeOfRequest':'Schema'
 		}
 		// check header data
 		// console.log(Headers);
@@ -198,8 +198,8 @@ function exampleSelect(){
 
 			success : function(data){
 				
-				console.log('data updated from ' + linkHref);
-				console.log(data);
+				// console.log('data updated from ' + linkHref);
+				// console.log(data);
 
 				var main_col = $('<div />').append(data).find('#bodyContainer').html();
 				$('#bodyContainer').html(main_col);
@@ -241,13 +241,13 @@ function requestVirtualField(){
 		var link = $(this);
 		var linkHref = 'http://192.168.1.12:8080' + link.attr('class');
 		var Headers = {
-			'User-Name':'Master',
-			'User-Password':'WDT',
-			'eConnect-Version':'2.0',
-			'TypeOfRequest':'Schema'
+			// 'User-Name':'Master',
+			// 'User-Password':'WDT',
+			// 'eConnect-Version':'2.0',
+			// 'TypeOfRequest':'Schema'
 		}
 		// check header data
-		console.log(linkHref);
+		// console.log(linkHref);
 		// perform rest GET request
 		$.ajax({
 			method: 'GET',
@@ -261,7 +261,7 @@ function requestVirtualField(){
 			success : function(data){
 				// select main_col data and append
 				
-				console.log('data updated from ' + linkHref);
+				// console.log('data updated from ' + linkHref);
 				// console.log(data);
 
 				var main_col = $('<div />').append(data).find('#bodyContainer').html();
