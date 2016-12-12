@@ -124,6 +124,9 @@ table.examples tbody {
 table.examples {
   margin-bottom: 10px;
 }
+table.examples thead tr {
+  height: 50px;
+}
 
 pre {
   display: block;
